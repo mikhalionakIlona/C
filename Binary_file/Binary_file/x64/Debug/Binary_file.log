@@ -1,0 +1,4 @@
+﻿  FileName.c
+C:\Users\ilona\source\repos\Binary_file\FileName.c(23,3): warning C4098: verification_file: функция типа "void", возвращающая значение
+C:\Users\ilona\source\repos\Binary_file\FileName.c(45,4): warning C4098: input: функция типа "void", возвращающая значение
+  Binary_file.vcxproj -> C:\Users\ilona\source\repos\Binary_file\x64\Debug\Binary_file.exe
