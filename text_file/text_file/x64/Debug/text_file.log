@@ -1,0 +1,6 @@
+﻿  FileName.c
+C:\Users\ilona\source\repos\text_file\FileName.c(16,3): warning C4098: verification_file: функция типа "void", возвращающая значение
+C:\Users\ilona\source\repos\text_file\FileName.c(30,3): warning C4098: my_fclose: функция типа "void", возвращающая значение
+C:\Users\ilona\source\repos\text_file\FileName.c(174,4): warning C4098: swap: функция типа "void", возвращающая значение
+C:\Users\ilona\source\repos\text_file\FileName.c(183,4): warning C4098: swap: функция типа "void", возвращающая значение
+  text_file.vcxproj -> C:\Users\ilona\source\repos\text_file\x64\Debug\text_file.exe
