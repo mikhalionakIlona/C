@@ -9,28 +9,28 @@
 void verification_file(FILE* fp) 
 {
 	if (fp == NULL) {
-		perror("\033[91mОшибка при открытии файла.\033[0m\n");
+		perror("\033[91mГЋГёГЁГЎГЄГ  ГЇГ°ГЁ Г®ГІГЄГ°Г»ГІГЁГЁ ГґГ Г©Г«Г .\033[0m\n");
 		return 1;
 	}
 }
 
 void checking_input() 
 {
-	printf("\033[91mОшибка: введено некорректное значение!\033[0m\nПовторите попытку: ");
+	printf("\033[91mГЋГёГЁГЎГЄГ : ГўГўГҐГ¤ГҐГ­Г® Г­ГҐГЄГ®Г°Г°ГҐГЄГІГ­Г®ГҐ Г§Г­Г Г·ГҐГ­ГЁГҐ!\033[0m\nГЏГ®ГўГІГ®Г°ГЁГІГҐ ГЇГ®ГЇГ»ГІГЄГі: ");
 	rewind(stdin);
 }
 
 void my_fclose(FILE* fp) 
 {
 	if (fclose(fp) == EOF) {
-		perror("Ошибка закрытия файла");
+		perror("ГЋГёГЁГЎГЄГ  Г§Г ГЄГ°Г»ГІГЁГї ГґГ Г©Г«Г ");
 		return 1;
 	}
 }
 
 void print_str(FILE* fp)
 {
-	printf("\033[35m\nВведите стороку:\033[0m\n");
+	printf("\033[35m\nГ‚ГўГҐГ¤ГЁГІГҐ Г±ГІГ®Г°Г®ГЄГі:\033[0m\n");
 	char a = getchar();
 	while (a != '\n')
 	{
@@ -42,7 +42,7 @@ void print_str(FILE* fp)
 void reading_file(FILE* fp) 
 {
 	char value;
-	printf("\033[35m\nСодержимое файла:\033[0m\n");
+	printf("\033[35m\nГ‘Г®Г¤ГҐГ°Г¦ГЁГ¬Г®ГҐ ГґГ Г©Г«Г :\033[0m\n");
 	while ((value=fgetc(fp))!=EOF)
 	{
 		printf("%c",value);
@@ -82,7 +82,7 @@ void reading_file(FILE* fp)
 	
 	if (second != -1) {
 		fseek(fp, second, SEEK_SET);
-		printf("\n\033[35mВторое слово: \033[0m");
+		printf("\n\033[35mГ‚ГІГ®Г°Г®ГҐ Г±Г«Г®ГўГ®: \033[0m");
 
 		while ((value = fgetc(fp)) != EOF && isalpha(value)||isdigit(value))
 		{
@@ -91,12 +91,12 @@ void reading_file(FILE* fp)
 		printf("\n");
 	}
 	else {
-		printf("Второе слово не найдено.\n");
+		printf("Г‚ГІГ®Г°Г®ГҐ Г±Г«Г®ГўГ® Г­ГҐ Г­Г Г©Г¤ГҐГ­Г®.\n");
 	}
 
 	if (prelast != -1) {
 		fseek(fp, prelast, SEEK_SET);
-		printf("\n\033[35mПредпоследнее слово: \033[0m");
+		printf("\n\033[35mГЏГ°ГҐГ¤ГЇГ®Г±Г«ГҐГ¤Г­ГҐГҐ Г±Г«Г®ГўГ®: \033[0m");
 		while ((value = fgetc(fp)) != EOF && isalpha(value)||isdigit(value))
 		{
 			printf("%c", value);
@@ -104,108 +104,62 @@ void reading_file(FILE* fp)
 		printf("\n");
 	}
 	else {
-		printf("Предпоследнее слово не найдено.\n");
+		printf("ГЏГ°ГҐГ¤ГЇГ®Г±Г«ГҐГ¤Г­ГҐГҐ Г±Г«Г®ГўГ® Г­ГҐ Г­Г Г©Г¤ГҐГ­Г®.\n");
 	}
 
 }
 
- void swap(FILE* fp) 
- {
-	 int count = 0, word = 0, current = -1, count_word = 0;
-	 char value;
-	 int short_len = INT_MAX, short_start = -1;
-	 int long_len = 0, long_start=-1;
+ void find_min_max_word_indexes(char words[50][100], int word_count, int* min_index, int* max_index) {
+	 if (word_count == 0) {
+		 *min_index = -1;
+		 *max_index = -1;
+		 return;
+	 }
 
-	 while ((value = fgetc(fp)) != EOF)
-	 {
-		 if (isalpha(value))
-		 {
-			 if (!word)
-			 {
-				 count++;
-				 word = 1;
-				 current = ftell(fp) - 1;
-				 count_word = 1;
-			 }
-			 else {
-				 count_word++;
-			 }
+	 *min_index = 0;
+	 *max_index = 0;
+	 size_t min_length = strlen(words[0]);
+	 size_t max_length = strlen(words[0]);
+
+	 for (int i = 1; i < word_count; i++) {
+		 size_t length = strlen(words[i]);
+
+		 if (length < min_length) {
+			 min_length = length;
+			 *min_index = i;
 		 }
-		 else if(word)
-		 {
-			 if (count_word < short_len)
-			 {
-				 short_len = count_word;
-				 short_start = current;
-			 }
-			 if (count_word > long_len)
-			 {
-				 long_len = count_word;
-				 long_start = current;
-			 }
-			 word = 0;
-			 
+
+		 if (length > max_length) {
+			 max_length = length;
+			 *max_index = i;
 		 }
 	 }
-	 if (count < 2) {
-		 printf("Недостаточно слов для обмена \n");
+ }
+
+ void swap_min_max_words(char words[50][100], int word_count) {
+	 int min_index, max_index;
+	 find_min_max_word_indexes(words, word_count, &min_index, &max_index);
+
+	 if (min_index != -1 && max_index != -1) {
+		 char temp[100];
+		 strcpy(temp, words[min_index]);
+		 strcpy(words[min_index], words[max_index]);
+		 strcpy(words[max_index], temp);
 	 }
-	 if (word) 
-	 {
-		 if (count_word < short_len)
-		 {
-			 short_len = count_word;
-			 short_start = current;
-		 }
-		 if (count_word > long_len)
-		 {
-			 long_len = count_word;
-			 long_start = current;
-		 }
+ }
+
+ void write_words_to_file(FILE* file, char words[50][100], int word_count) {
+	 for (int i = 0; i < word_count; i++) {
+		 fprintf(file, "%s ", words[i]);
 	 }
+ }
 
-
-	 if (short_start == -1 || long_start == -1) 
-	 {
-		 printf("Не удалось определить короткое и длинное слово\n ");
-		 return 1;
+ int read_words(FILE* file, char words[50][100]) {
+	 int count = 0;
+	 while (count < 50 && fscanf(file, "%49s", words[count]) == 1) {
+		 count++;
 	 }
-
-	 char* short_temp = malloc(short_len + 1);
-	 char* long_temp = malloc(long_len + 1);
-	 if (!short_temp || !long_temp) {
-		 printf("Не удалось выделить память\n");
-		 free(short_temp);
-		 free(long_temp);
-		 return 1;
-	 }
-
-	 
-
-	 fseek(fp, long_start, SEEK_SET);
-	 fread(long_temp, sizeof(char), long_len, fp);
-	 long_temp[long_len] = '\0';
-
-	 fseek(fp, short_start, SEEK_SET);
-	 fread(short_temp, sizeof(char), short_len, fp);
-	 short_temp[short_len] = '\0';
-
-
-	 fseek(fp, short_start, SEEK_SET);
-	 fwrite(long_temp, sizeof(char), long_len, fp);
-	 for (int i = 0;i < short_len - long_len;i++) {
-		 fputc(' ', fp);
-     }
-	 
-	 fseek(fp, long_start, SEEK_SET);
-	 fwrite(short_temp, sizeof(char), short_len, fp);
-	 for (int i = 0;i < long_len - short_len;i++) 
-	 {
-		 fputc(' ', fp);
-	 }
-
-	 free(short_temp);
-	 free(long_temp);
+	 return count;
  }
 
 
@@ -217,7 +171,7 @@ int main(int argc, char** argv) {
 	int n, count=0;
 
 
-	printf("\033[35mВыберите задание для выполния\033[0m:\n\033[36m1\033[0m - Заполнить файл словами и вывести на экран.\n\033[36m2\033[0m - Распечатать второе и предпоследнее слова.\n\033[36m3\033[0m - Поменять местами самое длинное слово и самое короткое.\n\033[0mВаш выбор: ");
+	printf("\033[35mГ‚Г»ГЎГҐГ°ГЁГІГҐ Г§Г Г¤Г Г­ГЁГҐ Г¤Г«Гї ГўГ»ГЇГ®Г«Г­ГЁГї\033[0m:\n\033[36m1\033[0m - Г‡Г ГЇГ®Г«Г­ГЁГІГј ГґГ Г©Г« Г±Г«Г®ГўГ Г¬ГЁ ГЁ ГўГ»ГўГҐГ±ГІГЁ Г­Г  ГЅГЄГ°Г Г­.\n\033[36m2\033[0m - ГђГ Г±ГЇГҐГ·Г ГІГ ГІГј ГўГІГ®Г°Г®ГҐ ГЁ ГЇГ°ГҐГ¤ГЇГ®Г±Г«ГҐГ¤Г­ГҐГҐ Г±Г«Г®ГўГ .\n\033[36m3\033[0m - ГЏГ®Г¬ГҐГ­ГїГІГј Г¬ГҐГ±ГІГ Г¬ГЁ Г±Г Г¬Г®ГҐ Г¤Г«ГЁГ­Г­Г®ГҐ Г±Г«Г®ГўГ® ГЁ Г±Г Г¬Г®ГҐ ГЄГ®Г°Г®ГІГЄГ®ГҐ.\n\033[0mГ‚Г Гё ГўГ»ГЎГ®Г°: ");
 
 	while (scanf_s("%d", &n) != 1 || n < 1 || n > 3 || getchar() != '\n')
 	{
@@ -255,19 +209,32 @@ int main(int argc, char** argv) {
 	case 3:
 
 		fp = fopen(file, "w");
-		verification_file(fp);
-		print_str(fp);
-		my_fclose(fp);
+                verification_file(fp);
+                print_str(fp);
+                my_fclose(fp);
 
-		fp = fopen(file, "r+");
-		verification_file(fp);
-		swap(fp);
-		my_fclose(fp);
+                fp = fopen(file, "r");
+                verification_file(fp);
+                int word_count = read_words(fp, words);
+                my_fclose(fp);
 
-		fp = fopen(file, "r");
-		verification_file(fp);
-		reading_file(fp);
-		my_fclose(fp);
+                if (word_count == 0) {
+            	printf("Р¤Р°Р№Р» РїСѓСЃС‚ РёР»Рё РЅРµ СЃРѕРґРµСЂР¶РёС‚ СЃР»РѕРІ.\n");
+             	return 1;
+}
+                swap_min_max_words(words, word_count);
+
+                FILE* output_file = fopen("output.txt", "w");
+                verification_file(output_file);
+
+                write_words_to_file(output_file, words, word_count);
+                my_fclose(output_file);
+
+                output_file = fopen("output.txt", "r");
+                verification_file(output_file);
+                reading_file(output_file);
+                my_fclose(output_file);
+
 
 		break;
 	}
